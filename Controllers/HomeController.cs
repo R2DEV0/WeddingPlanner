@@ -164,6 +164,14 @@ namespace WeddingPlanner.Controllers
             return RedirectToAction("Dashboard");
         }
 
+        [HttpPost("/delete/{WeddingId}")]
+        public IActionResult Delete(int WeddingId)
+        {
+            Wedding ToDelete = dbContext.Weddings.FirstOrDefault(wed => wed.WeddingId == WeddingId);
+            dbContext.Remove(ToDelete);
+            dbContext.SaveChanges();
+            return RedirectToAction("Dashboard");
+        }
 
         // Logout User //
         [HttpGet("logout")]

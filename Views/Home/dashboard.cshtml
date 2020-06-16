@@ -37,7 +37,7 @@
                             <td>@item.Date.ToShortDateString()</td>
                             <td> @item.Wedders.Count </td>
                             <td>
-                        @{
+                            @{
                                 bool found = false;
                                 bool MyWedding = false;
                                 @foreach(var wedder in item.Wedders)
@@ -51,24 +51,22 @@
                                         MyWedding = true;
                                     }
                                 }
-                            if(found == false && MyWedding == false){
-                                <form asp-action="RSVP" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
-                                    <button class="btn btn-success btn-sm"> RSVP </button>
-                                </form>
-                                }
-
-                            if(found == true && MyWedding == false){
-                                <form asp-action="UnRSVP" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
-                                    <button class="btn btn-secondary btn-sm"> UN-RSVP </button>
-                                </form>
-                                }
-
                             if(MyWedding == true){
                                 <form asp-action="Delete" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
                                     <button class="btn btn-danger btn-sm"> Delete </button>
                                 </form>
                                 }
-                        }
+                            if(found == false && MyWedding == false){
+                                <form asp-action="RSVP" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
+                                    <button class="btn btn-success btn-sm"> RSVP </button>
+                                </form>
+                                }
+                            if(found == true && MyWedding == false){
+                                <form asp-action="UnRSVP" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
+                                    <button class="btn btn-secondary btn-sm"> UN-RSVP </button>
+                                </form>
+                                }
+                            }
                             </td>
                         </tr>
                             }
