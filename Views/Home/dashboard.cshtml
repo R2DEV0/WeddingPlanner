@@ -1,0 +1,81 @@
+@model User
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> User Dashboard </title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-sm-12 text-center">
+            <h1> Welcome to Your Wedding Planner Dashboard </h1>
+        </div>
+        <div class="col-sm-12 text-center">
+            <a href="Logout"> Logout </a>
+        </div> <br>
+        <div>
+            <form asp-action="Addnewwedding" asp-contoller="Home" method="GET">
+                <button class="btn btn-primary col-sm-4 offset-4"> New Wedding </button>
+            </form>
+        </div> <br>
+        <div class="col-sm-10 offset-1 tableDiv">
+            <div class="row">
+                <table class=table>
+                    <thead>
+                        <th> Wedding </th>
+                        <th> Date </th>
+                        <th> Guest </th>
+                        <th> Action </th>
+                    </thead>
+                    <tbody>
+                            @foreach(var item in ViewBag.Weddings)
+                            {
+                        <tr>
+                            <td><a href="/viewdetail/@item.WeddingId"> @item.Wedder1 & @item.Wedder2 </a></td>
+                            <td>@item.Date.ToShortDateString()</td>
+                            <td> @item.Wedders.Count </td>
+                            <td>
+                        @{
+                                bool found = false;
+                                bool MyWedding = false;
+                                @foreach(var wedder in item.Wedders)
+                                {
+                                    if(wedder.UserId == Model.UserId && Model.UserId != wedder.Wedding.UserId)
+                                    {
+                                        found = true;
+                                    }
+                                    if(Model.UserId == wedder.Wedding.UserId)
+                                    {
+                                        MyWedding = true;
+                                    }
+                                }
+                            if(found == false && MyWedding == false){
+                                <form asp-action="RSVP" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
+                                    <button class="btn btn-success btn-sm"> RSVP </button>
+                                </form>
+                                }
+
+                            if(found == true && MyWedding == false){
+                                <form asp-action="UnRSVP" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
+                                    <button class="btn btn-secondary btn-sm"> UN-RSVP </button>
+                                </form>
+                                }
+
+                            if(MyWedding == true){
+                                <form asp-action="Delete" asp-route-WeddingId="@item.WeddingId" asp-asp-controller="Home" method="POST">
+                                    <button class="btn btn-danger btn-sm"> Delete </button>
+                                </form>
+                                }
+                        }
+                            </td>
+                        </tr>
+                            }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

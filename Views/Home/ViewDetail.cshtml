@@ -1,0 +1,57 @@
+@model Association
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Details</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-7">
+                <h2 class="text-center"> @ViewBag.Wedding.Wedder1 & @ViewBag.Wedding.Wedder2's Wedding </h2>
+                <h4 class="text-center"> @ViewBag.Wedding.Date.ToLongDateString() </h4>
+                <br><hr>
+                <div>
+                    <h5> Guest RSVP'd: </h5>
+                    <ul>
+                        @foreach(var guest in ViewBag.Wedding.Wedders)
+                        {
+                            <li> @guest.User.FirstName @guest.User.LastName </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <a href="/dashboard" class="col-sm-2"> Dashboard </a>
+                    <a href="/logout" class="col-sm-2 offset-1"> Logout </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="map" class="col-sm-6 offset-4"></div>
+
+    </div>
+</body>
+<style>
+#map {
+    width: 70%;
+    height: 350px;
+    background-color: grey;
+}
+</style>
+<script>
+function initMap() {
+    var weddingLocation = {lat: -25.344, lng: 131.036};
+    var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 4, center: weddingLocation});
+    var marker = new google.maps.Marker({position: weddingLocation, map: map});
+}
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key={API_KEY}&callback=initMap">
+    </script>
+</html>
