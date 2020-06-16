@@ -77,7 +77,7 @@ namespace WeddingPlanner.Controllers
             {
                 if(dbContext.Users.Any(u => u.Email == FromForm.UserForm.Email))
                 {
-                    ModelState.AddModelError("Email", "Email is already in use!");
+                    ModelState.AddModelError("UserForm.Email", "Email is already in use!");
                     return Index();
                 }
                 PasswordHasher<User> Hasher = new PasswordHasher<User>();
@@ -99,14 +99,14 @@ namespace WeddingPlanner.Controllers
                 User userInDb = dbContext.Users.FirstOrDefault(u => u.Email == FromForm.LoggedUserForm.Email);
                 if(userInDb == null)
                 {
-                    ModelState.AddModelError("Email", "Invalid Email/Password");
+                    ModelState.AddModelError("LoggedUserForm.Email", "Invalid Email/Password");
                     return Index();
                 }
                 var hasher = new PasswordHasher<LoginUser>();
                 var result = hasher.VerifyHashedPassword(FromForm.LoggedUserForm, userInDb.Password, FromForm.LoggedUserForm.Password);
                 if(result == 0)
                 {
-                    ModelState.AddModelError("Password", "Wrong Password");
+                    ModelState.AddModelError("LoggedUserForm.Password", "Wrong Password");
                     return Index();
                 }
                 else
